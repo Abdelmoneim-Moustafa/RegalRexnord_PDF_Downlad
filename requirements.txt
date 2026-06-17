@@ -1,6 +1,11 @@
+# playwright is pinned — newer releases (1.5x+) bundle a Chromium build
+# that needs system libraries newer than what Streamlit Community Cloud's
+# Debian 11 ("bullseye") base image provides. 1.49.0 is confirmed working
+# there as of early 2026; see README.md for details and how to check if a
+# newer pin has since become safe to use.
+playwright==1.49.0
+playwright-stealth>=2.0.0
 streamlit
-playwright
-playwright-stealth
 pandas
 openpyxl
 nest_asyncio
