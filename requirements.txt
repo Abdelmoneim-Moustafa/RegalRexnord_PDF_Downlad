@@ -1,0 +1,6 @@
+streamlit
+playwright
+playwright-stealth
+pandas
+openpyxl
+nest_asyncio
