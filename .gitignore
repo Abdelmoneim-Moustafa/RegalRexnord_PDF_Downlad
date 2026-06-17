@@ -1,0 +1,16 @@
+# Generated output (not part of source — recreated each run)
+Regal Rexnord Corporation/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
+Thumbs.db
