@@ -53,6 +53,24 @@ except Exception as exc:  # noqa: BLE001
     PLAYWRIGHT_OK = False
     PLAYWRIGHT_IMPORT_ERROR = str(exc)
 
+if PLAYWRIGHT_OK:
+    import subprocess
+
+    _CHROMIUM_FLAG = Path(tempfile.gettempdir()) / ".chromium_installed"
+    if not _CHROMIUM_FLAG.exists():
+        try:
+            subprocess.run(
+                [sys.executable, "-m", "playwright", "install", "chromium"],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
+            _CHROMIUM_FLAG.touch()
+        except Exception as exc:  # noqa: BLE001
+            PLAYWRIGHT_OK = False
+            PLAYWRIGHT_IMPORT_ERROR = f"Chromium install failed: {exc}"
+
 # ───────────────────────────────────────────────────────────────
 # Constants
 # ───────────────────────────────────────────────────────────────
@@ -355,18 +373,19 @@ def _download_link_text(path: Path) -> str:
 # ───────────────────────────────────────────────────────────────
 
 async def launch_browser(pw):
-    context = await pw.chromium.launch_persistent_context(
-        user_data_dir=str(PROFILE_DIR),
+    browser = await pw.chromium.launch(
         headless=True,
-        user_agent=BROWSER_UA,
-        locale="en-US",
-        viewport={"width": 1400, "height": 1000},
         args=[
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-blink-features=AutomationControlled",
         ],
+    )
+    context = await browser.new_context(
+        user_agent=BROWSER_UA,
+        locale="en-US",
+        viewport={"width": 1400, "height": 1000},
     )
     page = context.pages[0] if context.pages else await context.new_page()
 
