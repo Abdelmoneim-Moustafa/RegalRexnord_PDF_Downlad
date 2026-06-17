@@ -3,9 +3,11 @@
 # Debian 11 ("bullseye") base image provides. 1.49.0 is confirmed working
 # there as of early 2026; see README.md for details and how to check if a
 # newer pin has since become safe to use.
+
+streamlit>=1.45.0
 playwright==1.49.0
-playwright-stealth>=2.0.0
-streamlit
-pandas
-openpyxl
-nest_asyncio
+playwright-stealth==1.0.6
+pandas>=2.2.0
+openpyxl>=3.1.0
+nest_asyncio>=1.6.0
+greenlet==3.1.1
